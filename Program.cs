@@ -16,26 +16,36 @@ namespace Auto
         static void feltoltes()
         {
             conn.Connection.Open();
-            string sql = "SELECT * FROM 'cars'";
+            string sql = "SELECT * FROM `cars`";
 
             MySqlCommand cmd = new MySqlCommand(sql,conn.Connection);
             MySqlDataReader reader = cmd.ExecuteReader();
             reader.Read();
-            Car car = new Car();
+            do
+            {
+                Car car = new Car();
 
-            car.Id = reader.GetInt32(0);
-            car.Brand = reader.GetString(1);
-            car.Type = reader.GetString(2);
-            car.License = reader.GetString(3);
-            car.Date = reader.GetInt32(4);
+                car.Id = reader.GetInt32(0);
+                car.Brand = reader.GetString(1);
+                car.Type = reader.GetString(2);
+                car.License = reader.GetString(3);
+                car.Date = reader.GetInt32(4);
 
-            cars.Add(car);
+                cars.Add(car);
+            }
+            while (reader.Read());
 
+            
             conn.Connection.Close();
         }
         static void Main(string[] args)
         {
             feltoltes();
+            foreach (Car item in cars)
+            {
+                Console.WriteLine($"Auto gyártója: {item.Brand}, azonosítója: {item.Id}");
+            }
+            Console.ReadLine();
         }
     }
 }
