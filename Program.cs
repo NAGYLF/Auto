@@ -81,6 +81,29 @@ namespace Auto
 
             conn.Connection.Close();
         }
+        public static void Kiiratas()
+        {
+            conn.Connection.Open();
+            Console.WriteLine("adjon meg egy id");
+            int id = int.Parse(Console.ReadLine());
+            string sql = $"SELECT * FROM `cars` WHERE `Id`={id}";
+
+            MySqlCommand cmd = new MySqlCommand(sql, conn.Connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            string brand,type,license ;
+            int Id, date;
+            reader.Read();
+            brand = reader.GetString(1);
+            type = reader.GetString(2);
+            license = reader.GetString(3);
+            Id = reader.GetInt32(0);
+            date = reader.GetInt32(4);
+       
+            Console.WriteLine($"kiiratas: {Id} {brand} {type} {license} {date}");
+
+            conn.Connection.Close();
+        }
+
         static void Main(string[] args)
         {
             feltoltes();
@@ -91,6 +114,7 @@ namespace Auto
             AddCar();
             UpdateCar();
             DeleteCar();
+            Kiiratas();
             Console.ReadLine();
         }
     }
